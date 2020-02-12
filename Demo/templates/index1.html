@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+{% block sytle %}{% endblock %}
+</head>
+<body>
+{#    {% block content %}{% endblock %}#}
+    <h1>首页</h1>
+    <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1581410423743&amp;di=d303ca5b5d5eb927ea1e5d1c0b198b5a&amp;imgtype=0&amp;src=http%3A%2F%2Fdingyue.nosdn.127.net%2Fv1NxCYO0yoYYoy4MAbBUWxspgt%3DfYKNZ2SqG0oUk9LiZ81531056969640.jpg"  >
+    <p>
+        姓名：{{ name }}<br>
+        中文名字：{{ Chinaname }}<br>
+        年龄：{{ age }}<br>
+        爱好：{{ hobby }}<br>
+        分数：{{ score }}<br>
+        学科：{{ subject }}<br>
+        现在时间:{{ now_time }}
+    </p>
+    <h2>for使用</h2>
+    {% for i in hobby %}
+        {{ forloop.counter }}.{{ i }}<br>
+    {% endfor %}
+    <br>
+    {% for key,value in score.items %}
+        {{ forloop.counter }}.{{ key }}:{{ value }}分 <br>
+    {% endfor %}
+    <h2>if使用</h2>
+    {% if age > 18 %}
+        已成年
+    {% elif age == 18 %}
+        正好成年
+    {% else %}
+        未成年
+    {% endif %}
+    <h2>过滤器使用</h2>
+    {{ age|add:10 }} <br>
+    {{ name|capfirst }}<br>
+    {{ name|upper }}<br>
+    {{ name|lower }}<br>
+    {{ Chinaname|default:"古天乐" }}<br>
+{#    {{ now_time }}<br>#}
+    <p>{{ now_time | date:"Y-m-d H:i:s" }}</p>
+    <p>{{ now_time|date:"Y-m-d" }} {{ now_time|time:"P" }}</p>
+    {{ name|cut:"g" }}<br>
+    {% load myfilter %}
+    {{ age|myadd }}
+    {{ age|cdd }}
+{% block content %}{% endblock %}
+{% block scrpt %}{% endblock %}
+</body>
+</html>
