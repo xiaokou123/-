@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/vue.min.js"></script>
+</head>
+<body>
+<h1>vue</h1>
+{% verbatim myblock %}
+<div id="content">
+
+    <p v-bind:style="mystyle">
+        姓名：{{ name }}
+        年龄：{{ age }}
+    </p>
+    <p v-bind:style="mystyle" v-if="flag">
+        姓名：{{ name }}
+        年龄：{{ age }}
+    </p>
+    <p v-for="one in python_list">
+        {{ one }}
+    </p>
+    <p v-for="one in mylist">
+        {{ one.name }}{{ one.age }}
+    </p>
+</div>
+{% endverbatim myblock %}
+
+<script>
+    var vue=new Vue(
+        {
+            el:'#content',
+            data:{
+                name:"张三",
+                age:14,
+                mystyle:'height: 20px;color: red',
+                flag:false,
+                python_list:[1,2,3,4,5,6,7],
+                mylist:[
+                    {"name":'zhangsan','age':14 },
+                    {"name":'wangwu','age':11 },
+                    {"name":'zhangsi','age':44 },
+                    ]
+            }
+
+        }
+    )
+</script>
+</body>
+</html>

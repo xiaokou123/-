@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+{% block style %}
+    <script src="/static/js/vue.min.js"></script>
+{% endblock %}
+{% block content%}
+    {% verbatim myblock %}
+        <div id="mycontent">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>商品编号</th>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>商品数量</th>
+                <th>商品产地</th>
+                <th>商品保质期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="one in goods_list">
+                <td>{{ one.goods_number }}</td>
+                <td>{{ one.goods_name }}</td>
+                <td>{{ one.goods_price }}</td>
+                <td>{{ one.goods_count }}</td>
+                <td>{{ one.goods_location }}</td>
+                <td>{{ one.goods_safe_date }}</td>
+                <td>
+                    <button class="btn btn-primary">修改</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        </div>
+    {% endverbatim myblock %}
+{% endblock %}
+{% block script %}
+    <script>
+        var vue=new Vue(
+            {
+                el:"#mycontent",
+                data:{goods_list:[
+                    {'goods_number':"13232","goods_name":"西瓜","goods_price":33.2,"goods_count":32,"goods_location":"上海","goods_safe_date":4},
+                    {'goods_number':"132321","goods_name":"西瓜1","goods_price":33.2,"goods_count":32,"goods_location":"上海","goods_safe_date":4},
+                    {'goods_number':"1323211","goods_name":"西瓜1","goods_price":33.2,"goods_count":32,"goods_location":"上海","goods_safe_date":4}
+                ]}
+            }
+        )
+    </script>
+{% endblock %}

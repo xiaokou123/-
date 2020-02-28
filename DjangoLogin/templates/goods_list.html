@@ -1,0 +1,96 @@
+
+{% extends "base.html" %}
+{% block content%}
+    {% if status == "1" %}
+        <h1 class="h3 mb-4 text-gray-800">在售商品</h1>
+    {% else %}
+        <h1 class="h3 mb-4 text-gray-800">下架商品</h1>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>商品编号</th>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>商品数量</th>
+                <th>商品产地</th>
+                <th>商品保质期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for one in goods_list %}
+            <tr>
+                <td>{{ one.goods_number }}</td>
+                <td>{{ one.goods_name }}</td>
+                <td>{{ one.goods_price }}</td>
+                <td>{{ one.goods_count }}</td>
+                <td>{{ one.goods_location }}</td>
+                <td>{{ one.goods_safe_date }}</td>
+                <td>
+                    <button class="btn btn-primary">修改</button>
+{#                    <button class="btn btn-secondary">下架</button>#}
+{#                    <button class="btn btn-warning">下架</button>#}
+                    {% if one.state == 1 %}
+                        <a href="/goods_state/{{ one.id }}/down/{{ goods_list.number }}" class="btn btn-secondary">下架</a>
+                    {% else %}
+                        <a href="/goods_state/{{ one.id }}/up/{{ goods_list.number }}" class="btn btn-warning">上架</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <ul class="pagination" style="float: right;margin-right: 80px">
+    {% if status == "1" %}
+        {% if goods_list.number != 1 %}
+            <li class="paginate_button page-item"><a href="/goods_all/1/1/" class="page-link">首页</a></li>
+            <li class="paginate_button page-item"><a href="/goods_all/{{ goods_list.number|add:-1 }}/1/" class="page-link">上一页</a></li>
+        {% endif %}
+    {% else %}
+         {% if goods_list.number != 1 %}
+            <li class="paginate_button page-item"><a href="/goods_all/1/0/" class="page-link">首页</a></li>
+            <li class="paginate_button page-item"><a href="/goods_all/{{ goods_list.number|add:-1 }}/0/" class="page-link">上一页</a></li>
+        {% endif %}
+    {% endif %}
+    {% for page in goods_obj.page_range %}
+        {% if status == "1" %}
+            {% if goods_list.number == page %}
+                <li class="paginate_button page-item active">
+                    <a href="/goods_all/{{ page }}/1/" class="page-link">{{ page }}</a>
+                </li>
+            {% else %}
+            <li class="paginate_button page-item ">
+                    <a href="/goods_all/{{ page }}/1/" class="page-link">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% else %}
+            {% if goods_list.number == page %}
+                <li class="paginate_button page-item active">
+                    <a href="/goods_all/{{ page }}/0/" class="page-link">{{ page }}</a>
+                </li>
+            {% else %}
+            <li class="paginate_button page-item ">
+                    <a href="/goods_all/{{ page }}/0/" class="page-link">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% endif %}
+
+    {% endfor %}
+    {% if status == "1" %}
+        {% if goods_list.number != goods_obj.num_pages %}
+            <li class="paginate_button page-item"><a href="/goods_all/{{ goods_list.number|add:1 }}/1/" class="page-link">下一页</a></li>
+            <li class="paginate_button page-item"><a href="/goods_all/{{ goods_obj.num_pages }}/1/" class="page-link">尾页</a></li>
+        {% endif %}
+    {% else %}
+        {% if goods_list.number != goods_obj.num_pages %}
+            <li class="paginate_button page-item"><a href="/goods_all/{{ goods_list.number|add:1 }}/0/" class="page-link">下一页</a></li>
+            <li class="paginate_button page-item"><a href="/goods_all/{{ goods_obj.num_pages }}/0/" class="page-link">尾页</a></li>
+        {% endif %}
+    {% endif %}
+    </ul>
+
+{% endblock %}
