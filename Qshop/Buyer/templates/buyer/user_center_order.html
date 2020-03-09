@@ -14,14 +14,23 @@
 		<div class="left_menu_con clearfix">
 			<h3>用户中心</h3>
 			<ul>
-				<li><a href="user_center_info.html">· 个人信息</a></li>
-				<li><a href="user_center_order.html" class="active">· 全部订单</a></li>
-				<li><a href="user_center_site.html">· 收货地址</a></li>
+				<li><a href="/user_center_info/">个人信息</a></li>
+				<li><a href="/user_center_order/" class="active">· 全部订单</a></li>
+				<li><a href="/user_center_order/1/?staus=1"> &nbsp · 待支付</a></li>
+				<li><a href="/user_center_order/1/?staus=2"> &nbsp · 已付款</a></li>
+				<li><a href="/user_center_order/1/?staus=4"> &nbsp · 已发货</a></li>
+				<li><a href="/user_center_order/1/?staus=6"> &nbsp · 已完成</a></li>
+				<li><a href="/user_center_site/">收货地址</a></li>
 			</ul>
 		</div>
 		<div class="right_content clearfix">
-				<h3 class="common_title2">全部订单</h3>
-            {% for foo in payorder %}
+        {% if staus_get %}
+            <h3 class="common_title2">{{ staus }}</h3>
+        {% else %}
+            <h3 class="common_title2">全部订单</h3>
+        {% endif %}
+
+            {% for foo in pagg_obj %}
 
 
 
@@ -44,21 +53,54 @@
 								</ul>
                                 {% endfor %}
 							</td>
-							<td width="15%">33.60元</td>
-							<td width="15%">待付款</td>
-							<td width="15%"><a href="#" class="oper_btn">去付款</a></td>
+							<td width="15%">{{ foo.order_total }}元</td>
+							<td width="15%">{{ foo.get_order_staus_display }}</td>
+                        {% if foo.order_staus == 1 %}
+                            <td width="15%"><a href="/Buyer/center_place_order/?id={{ foo.id }}" class="oper_btn" style="background-color: pink;color: black">去付款</a></td>
+                        {% else %}
+                            <td width="15%"><a href="#" class="oper_btn" style="background-color: pink;color: black">查看详情</a></td>
+                        {% endif %}
+                            <td width="15%"><a href="/Buyer/del_payorder/?num={{ foo.order_number }}" class="oper_btn">删除订单</a></td>
 						</tr>
 					</tbody>
 				</table>
             {% endfor %}
 				<div class="pagenation">
-					<a href="#">上一页</a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">下一页></a>
+                {% if staus_get %}
+                    {% if pagg_obj.has_previous %}
+                    <a href="/user_center_order//?staus={{ staus_get }}">首页</a>
+					<a href="/user_center_order/{{ pagg_obj.previous_page_number }}/?staus={{ staus_get }}">上一页</a>
+                    {% endif %}
+                    {% for fo in pagg.page_range %}
+                        {% if fo == int.pag %}
+                            <a href="/user_center_order/{{ fo }}/?staus={{ staus_get }}" class="active">{{ fo }}</a>
+                        {% else %}
+                            <a href="/user_center_order/{{ fo }}/?staus={{ staus_get }}">{{ fo }}</a>
+                        {% endif %}
+
+                    {% endfor %}
+                {% if pagg_obj.has_next  %}
+                    <a href="/user_center_order/{{ pagg_obj.next_page_number }}/?staus={{ staus_get }}">下一页</a>
+                    <a href="/user_center_order/{{ pagg.num_pages }}/?staus={{ staus_get }}">尾页</a>
+                {% endif %}
+                {% else %}
+                                    {% if pagg_obj.has_previous %}
+                    <a href="/user_center_order/">首页</a>
+					<a href="/user_center_order/{{ pagg_obj.previous_page_number }}">上一页</a>
+                    {% endif %}
+                    {% for fo in pagg.page_range %}
+                        {% if fo == int.pag %}
+                            <a href="/user_center_order/{{ fo }}" class="active">{{ fo }}</a>
+                        {% else %}
+                            <a href="/user_center_order/{{ fo }}">{{ fo }}</a>
+                        {% endif %}
+
+                    {% endfor %}
+                {% if pagg_obj.has_next  %}
+                    <a href="/user_center_order/{{ pagg_obj.next_page_number }}">下一页</a>
+                    <a href="/user_center_order/{{ pagg.num_pages }}">尾页</a>
+                {% endif %}
+                {% endif %}
 				</div>
 		</div>
 	</div>

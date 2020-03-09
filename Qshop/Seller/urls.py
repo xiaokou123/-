@@ -11,6 +11,8 @@ urlpatterns = [
     path('goods_state/',goods_state ),
     path('goods_add/',goods_add ),
     path('seek/',seek ),
+    path('get_code/',get_code),
+    path('del_code/',del_code),
     path('user_profile/',user_profile ),
     re_path('goods_all/(?P<page>\d+)/(?P<status>\d+)', goods_all),
     re_path('goods_state/(?P<id>\d+)/(?P<state>\w+)/(?P<page>\d+)', goods_state),

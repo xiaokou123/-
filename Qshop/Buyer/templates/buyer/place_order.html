@@ -9,7 +9,7 @@
     <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;提交订单</div>
     {% endblock %}
 {% block content %}
-
+{% load myfilter %}
 
 	
 	<h3 class="common_title">确认收货地址</h3>
@@ -49,12 +49,12 @@
 		</ul>
         {% for foo in payoeder.orderinfo_set.all %}
         		<ul class="goods_list_td clearfix">
-			<li class="col01">1</li>
+			<li class="col01">{{ forloop.counter }}</li>
 			<li class="col02"><img src="/static/seller/{{ foo.goods.goods_picture }}"></li>
 			<li class="col03">{{ foo.goods.goods_name }}</li>
 			<li class="col04">500g</li>
-			<li class="col05">{{ foo.goods_price }}元</li>
-			<li class="col06">{{ goods_count }}</li>
+			<li class="col05">{{ foo.goods.goods_price }}元</li>
+			<li class="col06">{{ foo.goods_count }}</li>
 			<li class="col07">{{ foo.goods_total_price }}元</li>
 		</ul>
         {% endfor %}
@@ -69,15 +69,13 @@
 		<div class="settle_con">
 			<div class="total_goods_count">共<em>{{ payoeder.orderinfo_set.count }}</em>件商品，总金额<b>{{ payoeder.order_total }}元</b></div>
 			<div class="transit">运费：<b>10元</b></div>
-			<div class="total_pay">实付款：<b>
-                {% load myfilter %}{{ payoeder.order_total |mydd:10 }}元</b></div>
+			<div class="total_pay">实付款：<b>{{ payoeder.order_total | mydd:10 }}</b>元</div>
 		</div>
 	</div>
 
 	<div class="order_submit clearfix">
-		<a href="javascript:;" id="order_btn">提交订单</a>
+		<a href="/Buyer/alipay_ordeer/?payoeder_id={{ payoeder.id }}&order_total={{ payoeder.order_total |mydd:10  }}" id="order_btn">提交订单</a>
 	</div>	
 {% endblock %}
 {% block script %}
-
 {% endblock %}
